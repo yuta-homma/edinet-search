@@ -1,0 +1,9 @@
+isodate
+lxml
+requests
+python-dateutil
+unittest-data-provider
+freezegun
+pyyaml
+memory_profiler
+edinet-xbrl

@@ -1,0 +1,32 @@
+# 取得フィールド設定
+HEADER:
+  - '会社名'
+  - '証券コード'
+  - '売上高（連結）'
+  - '売上高（提出会社）'
+  - '経常利益（連結）'
+  - '経常利益（提出会社）'
+  - '当期純利益（提出会社）'
+  - '監査報酬（提出会社）'
+  - '監査報酬（合計）'
+  - '純資産額（提出会社）'
+  - '現金及び現金同等物の期末残高（連結）'
+  - '現金及び現金同等物の期末残高（提出会社）'
+  - '発行済株式総数'
+
+TARGET:
+  - {'KEY':'jpdei_cor:FilerNameInJapaneseDEI', 'NAME': '会社名', 'CONTEXT_ID': 'FilingDateInstant'}
+  - {'KEY':'jpcrp_cor:NetSalesSummaryOfBusinessResults', 'NAME': '売上高（連結）', 'CONTEXT_ID': 'CurrentYearDuration'}
+  - {'KEY':'jpcrp_cor:NetSalesSummaryOfBusinessResults', 'NAME': '売上高（提出会社）', 'CONTEXT_ID': 'CurrentYearDuration_NonConsolidatedMember'}
+  - {'KEY':'jpcrp_cor:OrdinaryIncomeLossSummaryOfBusinessResults', 'NAME': '経常利益（連結）', 'CONTEXT_ID': 'CurrentYearDuration'}
+  - {'KEY':'jpcrp_cor:OrdinaryIncomeLossSummaryOfBusinessResults', 'NAME': '経常利益（提出会社）', 'CONTEXT_ID': 'CurrentYearDuration_NonConsolidatedMember'}
+  - {'KEY':'jpcrp_cor:NetIncomeLossSummaryOfBusinessResults', 'NAME': '当期純利益（提出会社）', 'CONTEXT_ID': 'CurrentYearDuration_NonConsolidatedMember'}
+  - {'KEY':'jpcrp_cor:AuditFeesReportingCompany', 'NAME': '監査報酬（提出会社）', 'CONTEXT_ID': 'CurrentYearDuration'}
+  - {'KEY':'jpcrp_cor:AuditFeesTotal', 'NAME': '監査報酬（合計）', 'CONTEXT_ID': 'CurrentYearDuration'}
+  - {'KEY':'jpcrp_cor:NetAssetsSummaryOfBusinessResults', 'NAME': '純資産額（提出会社）', 'CONTEXT_ID': 'CurrentYearInstant_NonConsolidatedMember'}
+  - {'KEY':'jpcrp_cor:CashAndCashEquivalentsSummaryOfBusinessResults', 'NAME': '現金及び現金同等物の期末残高（連結）', 'CONTEXT_ID': 'CurrentYearInstant'}
+  - {'KEY':'jpcrp_cor:CashAndCashEquivalentsSummaryOfBusinessResults', 'NAME': '現金及び現金同等物の期末残高（提出会社）', 'CONTEXT_ID': 'CurrentYearInstant_NonConsolidatedMember'}
+  - {'KEY':'jpcrp_cor:TotalNumberOfIssuedSharesSummaryOfBusinessResults', 'NAME': '発行済株式総数', 'CONTEXT_ID': 'CurrentYearInstant_NonConsolidatedMember'}
+
+EXTRA_TARGET:
+  SEC_CODE: '証券コード'
