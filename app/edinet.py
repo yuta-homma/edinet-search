@@ -138,8 +138,18 @@ class Edinet:
         """
         doc_list = []
         for index, day in enumerate(day_list):
-            params = {"date": day, "type": 2}
-            res = requests.get(self.API_DOC_LIST_JSON, params=params)
+            # HTTP 403が返ってくることがあるので5回までリトライする
+            for _ in range(5):
+                params = {"date": day, "type": 2}
+                res = requests.get(self.API_DOC_LIST_JSON, params=params)
+                if res.status_code != 200:
+                    print(day)
+                    print('HTTPステータスコード:' + str(res.status_code) + ' 10秒スリープします')
+                    time.sleep(10)
+                    continue
+                else:
+                    break
+
             json_data = res.json()
 
             for num in range(len(json_data["results"])):
@@ -148,8 +158,8 @@ class Edinet:
                 if ordinance_code == self.ORDINANCE_CODE and form_code == self.FORM_CODE:
                     doc_list.append(json_data["results"][num])
             if index % 10 == 0:
-                # API負荷対策
-                time.sleep(1)
+                # API負荷対策で10回に2秒スリープする
+                time.sleep(2)
 
         return doc_list
 
@@ -164,12 +174,20 @@ class Edinet:
         url = self.API_GET_DOC_BASE + doc_id
         params = {"type": 1}
         filename = "/tmp/" + doc_id + ".zip"
-        res = requests.get(url, params=params, stream=True)
 
-        if res.status_code == 200:
-            with open(filename, 'wb') as file:
-                for chunk in res.iter_content(chunk_size=1024):
-                    file.write(chunk)
+        # リトライ処理(5回まで)
+        for _ in range(5):
+            res = requests.get(url, params=params, stream=True)
+            if res.status_code != 200:
+                print('HTTPステータスコード:' + str(res.status_code) + ' 10秒スリープします')
+                time.sleep(10)
+                continue
+            else:
+                break
+
+        with open(filename, 'wb') as file:
+            for chunk in res.iter_content(chunk_size=1024):
+                file.write(chunk)
 
         return filename
 
